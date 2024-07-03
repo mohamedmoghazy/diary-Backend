@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { getStoredItems, storeItems } = require("/Users/mohamed.moghazi/Desktop/WBS coding/repos/React/dummy-backend/data/Items");
+const { getStoredItems, storeItems } = require('./data/items.js');
 
 const app = express();
 
@@ -35,13 +35,10 @@ app.post('/items', async (req, res) =>
 {
   const existingItems = await getStoredItems();
   const itemData = req.body;
-  const newItem = {
-    ...itemData,
-    id: Math.random().toString(),
-  };
-  const updatedItems = [newItem, ...existingItems];
+  // const newItem = itemData;
+  const updatedItems = [itemData, ...existingItems];
   await storeItems(updatedItems);
-  res.status(201).json({ message: 'Stored new item.', item: newItem });
+  res.status(201).json({ message: 'Stored new item.', item: itemData });
 });
 
 app.listen(8080);
